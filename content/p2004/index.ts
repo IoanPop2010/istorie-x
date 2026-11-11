@@ -1,4 +1,5 @@
 import type { Unit } from "@/lib/types";
+import { ESENTIALE } from "./esentiale";
 import { u01 } from "./u01-introducere";
 import { u02 } from "./u02-revolutia-glorioasa";
 import { u03 } from "./u03-epoca-luminilor";
@@ -20,4 +21,4 @@ import { u18 } from "./u18-religia-in-lumea-contemporana";
 import { u19 } from "./u19-integrarea-euroatlantica";
 import { u20 } from "./u20-societatea-mileniului-trei";
 
-export const units: Unit[] = [u01, u02, u03, u04, u05, u06, u07, u08, u09, u10, u11, u12, u13, u14, u15, u16, u17, u18, u19, u20];
+export const units: Unit[] = [u01, u02, u03, u04, u05, u06, u07, u08, u09, u10, u11, u12, u13, u14, u15, u16, u17, u18, u19, u20].map((u) => ({ ...u, essentials: ESENTIALE[u.slug] }));

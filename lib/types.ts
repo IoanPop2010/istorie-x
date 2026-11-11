@@ -77,6 +77,8 @@ export type Unit = {
   period: string;
   hours: number;
   summary: string;
+  /** Cinci idei esențiale, afișate la începutul lecției. */
+  essentials?: string[];
   body: string;
   sources: Source[];
   glossary: Term[];

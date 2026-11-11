@@ -17,6 +17,7 @@ for (const u of units) {
     if (e.kind === "harta") for (const t of e.targets) if (!ids(e.map).has(t.id)) err(`${u.slug} ex ${i}: ${t.id} nu există în ${e.map}`);
     if (e.kind === "asociere" && new Set(e.pairs.map((p) => p[1])).size !== e.pairs.length) err(`${u.slug} ex ${i}: perechi duplicate`);
   });
+  if (!u.essentials || u.essentials.length !== 5) err(`${u.slug}: lipsesc ideile esențiale`);
   const words = u.body.replace(/^>.*$/gm, "").split(/\s+/).filter(Boolean).length;
   console.log(`${String(u.nr).padStart(2)} ${u.slug.padEnd(42)} ${words} cuvinte, ${u.exercises.length} ex., ${u.glossary.length} termeni, ${u.sources.length} surse`);
 }

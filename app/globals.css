@@ -441,3 +441,173 @@ blockquote.citat {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; }
 }
+
+/* =========================================================
+   Culoare: pigmenții manuscriselor iluminate, câte unul pe modul
+   I lapis lazuli, II miniu, III malahit, IV ocru, V purpură
+   ========================================================= */
+
+:root {
+  --m1: #2b5aa3;
+  --m2: #c4432b;
+  --m3: #23855f;
+  --m4: #c07f12;
+  --m5: #8a3a7a;
+  --m: var(--rubrica);
+}
+[data-modul="1"] { --m: var(--m1); }
+[data-modul="2"] { --m: var(--m2); }
+[data-modul="3"] { --m: var(--m3); }
+[data-modul="4"] { --m: var(--m4); }
+[data-modul="5"] { --m: var(--m5); }
+
+/* Banda de titlu a lecției */
+.banda {
+  position: relative; overflow: hidden;
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2rem; align-items: end;
+  margin: -2.5rem calc(-1 * clamp(1.25rem, 4vw, 4rem)) 2.5rem;
+  padding: 2.75rem clamp(1.25rem, 4vw, 4rem) 2.25rem;
+  background:
+    radial-gradient(circle at 100% 0%, color-mix(in srgb, var(--m) 14%, transparent) 0 11rem, transparent 11rem),
+    linear-gradient(135deg, color-mix(in srgb, var(--m) 16%, var(--hartie)), color-mix(in srgb, var(--m) 6%, var(--hartie)));
+  border-bottom: 3px solid var(--m);
+}
+.banda::after {
+  content: ""; position: absolute; inset: auto 0 6px 0; height: 1px; background: color-mix(in srgb, var(--m) 45%, transparent);
+}
+.banda .cota { color: var(--m); }
+.banda .cota span { background: color-mix(in srgb, var(--m) 14%, transparent); padding: 0.05rem 0.55rem; border-radius: 999px; }
+.banda .titlu-fila { font-size: clamp(2rem, 4.2vw, 3.1rem); max-width: 20ch; }
+.banda .rezumat { margin-bottom: 1.25rem; font-size: var(--t-m); max-width: 44rem; }
+.banda-ani {
+  font-size: clamp(2.5rem, 7vw, 5.5rem); line-height: 0.9; font-style: italic; color: var(--m);
+  opacity: 0.85; text-align: right; max-width: 6ch; font-variant-numeric: oldstyle-nums;
+}
+.banda .btn { background: var(--m); border-color: var(--m); }
+.banda .btn:hover { filter: brightness(0.9); background: var(--m); }
+.banda .btn.secundar { background: var(--hartie); color: var(--cerneala); border-color: color-mix(in srgb, var(--m) 50%, var(--cerneala)); }
+.banda .btn.ceara { background: var(--ceara); border-color: var(--ceara); }
+@media (max-width: 960px) { .banda { margin-top: -1.5rem; grid-template-columns: 1fr; } .banda-ani { text-align: left; max-width: none; font-size: 2.6rem; } }
+
+/* Esențialul în 5 idei */
+.esential { max-width: 62rem; margin-bottom: 3rem; }
+.esential h2, .axa h2 { font-size: var(--t-xl); margin-bottom: 1rem; }
+.esential ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 0.85rem; counter-reset: idee; }
+.esential li {
+  counter-increment: idee; position: relative; padding: 2.6rem 1.1rem 1.1rem; line-height: 1.45; font-size: var(--t-m);
+  background: color-mix(in srgb, var(--m) 8%, #f6f1e4); border: 1px solid color-mix(in srgb, var(--m) 30%, transparent);
+  border-top: 4px solid var(--m); border-radius: 3px 3px 10px 10px;
+  animation: ridica 0.5s both; animation-delay: calc(var(--i, 0) * 70ms);
+}
+.esential li:nth-child(2) { --i: 1; } .esential li:nth-child(3) { --i: 2; } .esential li:nth-child(4) { --i: 3; } .esential li:nth-child(5) { --i: 4; }
+.esential li::before {
+  content: counter(idee); position: absolute; top: 0.55rem; left: 1rem;
+  width: 1.65rem; height: 1.65rem; border-radius: 50%; display: grid; place-items: center;
+  background: var(--m); color: #fff; font-size: var(--t-s); font-weight: 700; font-variant-numeric: lining-nums;
+}
+.esential strong { color: color-mix(in srgb, var(--m) 75%, var(--cerneala)); }
+@keyframes ridica { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+/* Axa timpului, orizontală */
+.axa { margin-bottom: 3rem; max-width: 100%; }
+.axa ol {
+  list-style: none; margin: 0; padding: 1.6rem 0 0.5rem; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(11rem, 13rem);
+  gap: 0.9rem; overflow-x: auto; scroll-snap-type: x proximity; position: relative; scrollbar-width: thin;
+  background: linear-gradient(var(--m), var(--m)) 0 0.7rem / 100% 3px no-repeat;
+}
+.axa li { scroll-snap-align: start; position: relative; padding-top: 0.6rem; font-size: var(--t-s); line-height: 1.4; }
+.axa li::before {
+  content: ""; position: absolute; top: -1.2rem; left: 0; width: 0.9rem; height: 0.9rem; border-radius: 50%;
+  background: var(--hartie); border: 3px solid var(--m);
+}
+.axa .an { display: block; font-weight: 700; color: var(--m); font-variant-numeric: lining-nums; margin-bottom: 0.15rem; }
+
+/* Lecția pe larg: secțiuni pliabile */
+.pe-larg { max-width: calc(var(--text) + var(--margine) + 2.75rem); }
+.control-sectiuni { margin-bottom: 0.75rem; }
+.btn.mic { padding: 0.25rem 0.75rem; font-size: var(--t-xs); }
+details.sectiune { border-top: 1px solid color-mix(in srgb, var(--m) 35%, transparent); }
+details.sectiune:last-of-type { border-bottom: 1px solid color-mix(in srgb, var(--m) 35%, transparent); }
+details.sectiune > summary {
+  list-style: none; cursor: pointer; display: grid; grid-template-columns: 2.6rem 1fr auto; gap: 0.9rem; align-items: start;
+  padding: 1rem 0.5rem 1rem 0; transition: background 0.15s;
+}
+details.sectiune > summary::-webkit-details-marker { display: none; }
+details.sectiune > summary::after {
+  content: "+"; font-size: 1.6rem; line-height: 1; color: var(--m); transition: transform 0.2s; padding-top: 0.2rem;
+}
+details.sectiune[open] > summary::after { transform: rotate(45deg); }
+details.sectiune > summary:hover { background: color-mix(in srgb, var(--m) 6%, transparent); }
+details.sectiune .par {
+  width: 2.3rem; height: 2.3rem; border-radius: 50%; display: grid; place-items: center;
+  background: color-mix(in srgb, var(--m) 14%, transparent); color: var(--m); font-weight: 700; font-variant-numeric: lining-nums;
+}
+details.sectiune[open] .par { background: var(--m); color: #fff; }
+.sectiune-titlu strong { display: block; font-size: var(--t-l); font-weight: 500; line-height: 1.25; }
+.sectiune-titlu .teaser { display: block; font-size: var(--t-s); color: var(--cerneala-2); margin-top: 0.2rem; font-style: italic; }
+details.sectiune[open] .teaser { display: none; }
+details.sectiune > .lectie { padding: 0.25rem 0 1.5rem 3.5rem; animation: ridica 0.3s both; }
+@media (max-width: 760px) { details.sectiune > .lectie { padding-left: 0; } }
+.bloc-intai > p:first-child::first-letter { color: var(--m); }
+.nota { border-left-color: var(--m); }
+.nota .nr, .nota-marcaj { color: var(--m); }
+.lista li::marker { color: var(--m); }
+
+/* Capitole colorate */
+[data-modul] .capitol > h2 { display: flex; align-items: center; gap: 0.6rem; }
+[data-modul] .capitol > h2::before { content: ""; width: 0.65rem; height: 0.65rem; background: var(--m); transform: rotate(45deg); flex: none; }
+[data-modul] .schema { border-color: var(--m); }
+[data-modul] .schema > div:nth-child(odd) { background: color-mix(in srgb, var(--m) 7%, var(--hartie)); }
+[data-modul] .schema h3 { color: var(--m); }
+[data-modul] .sursa { border-left: 4px solid var(--m); }
+[data-modul] .sursa h3 { color: var(--m); }
+[data-modul] .glosar div { border-top-color: color-mix(in srgb, var(--m) 40%, transparent); }
+[data-modul] .glosar dt { color: color-mix(in srgb, var(--m) 70%, var(--cerneala)); }
+[data-modul] .ex { border-top-color: var(--m); }
+[data-modul] .ex > header .tip::before { color: var(--m); }
+.harta .teritoriu.evidentiat { fill: url(#hasura); }
+
+/* Exerciții mai vii */
+.variante button { border-radius: 6px; transition: transform 0.12s, background 0.15s, border-color 0.15s; }
+.variante button:hover:not(:disabled) { transform: translateX(3px); }
+.variante button.corect { animation: bine 0.45s; }
+.variante button.ales-gresit { animation: clatina 0.35s; }
+@keyframes bine { 40% { transform: scale(1.025); } }
+@keyframes clatina { 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+.ordine li, .perechi select, .itemi-bac textarea, .barem { border-radius: 6px; }
+.btn { border-radius: 4px; }
+
+/* Cotorul: modulele în culorile lor */
+.cotor nav:nth-of-type(1) { --m: var(--m1); } .cotor nav:nth-of-type(2) { --m: var(--m2); }
+.cotor nav:nth-of-type(3) { --m: var(--m3); } .cotor nav:nth-of-type(4) { --m: var(--m4); }
+.cotor nav:nth-of-type(5) { --m: var(--m5); }
+.cotor-mobil nav:nth-of-type(1) { --m: var(--m1); } .cotor-mobil nav:nth-of-type(2) { --m: var(--m2); }
+.cotor-mobil nav:nth-of-type(3) { --m: var(--m3); } .cotor-mobil nav:nth-of-type(4) { --m: var(--m4); }
+.cotor-mobil nav:nth-of-type(5) { --m: var(--m5); }
+.cotor nav h2 { color: var(--m); display: flex; align-items: center; gap: 0.45rem; }
+.cotor nav h2::before { content: ""; width: 0.55rem; height: 0.55rem; border-radius: 50%; background: var(--m); }
+.cotor nav li a .nr { color: color-mix(in srgb, var(--m) 70%, var(--cerneala-3)); }
+.cotor nav li a[aria-current="page"] { color: var(--m); font-weight: 700; }
+.cotor nav li a[aria-current="page"] .nr { color: var(--m); }
+
+/* Pagina principală */
+.frontispiciu { position: relative; }
+.frontispiciu h1 .ani { color: var(--m2); }
+.spectru { display: flex; height: 10px; max-width: 64rem; margin: 0 0 1rem; border-radius: 999px; overflow: hidden; }
+.spectru span { flex: 1; }
+.module-carduri { display: grid; grid-template-columns: repeat(auto-fit, minmax(11.5rem, 1fr)); gap: 0.8rem; max-width: 64rem; margin: 0 0 1rem; }
+.module-carduri a {
+  display: block; text-decoration: none; padding: 1rem 1rem 1.1rem; border-radius: 10px; color: #fff; min-height: 8.5rem;
+  background: linear-gradient(160deg, var(--m), color-mix(in srgb, var(--m) 70%, #000));
+  box-shadow: 0 3px 0 color-mix(in srgb, var(--m) 55%, #000); transition: transform 0.15s;
+}
+.module-carduri a:hover { transform: translateY(-3px); color: #fff; }
+.module-carduri .mn { font-size: 2rem; line-height: 1; font-style: italic; opacity: 0.9; }
+.module-carduri .mt { display: block; margin-top: 0.5rem; line-height: 1.3; font-size: var(--t-s); }
+.inventar caption { color: var(--m); }
+.inventar td.nr { color: var(--m); font-weight: 700; }
+.inventar th, .inventar td { border-bottom-color: color-mix(in srgb, var(--m) 25%, var(--regula)); }
+.bara-parcurs .linie span { background: linear-gradient(90deg, var(--m1), var(--m2), var(--m3), var(--m4), var(--m5)); }
+
+@media print { .banda { background: none; margin: 0 0 1rem; padding: 0; } .axa ol { grid-auto-flow: row; } details.sectiune > summary::after { display: none; } }
+@media (prefers-reduced-motion: reduce) { .esential li { animation: none; } }

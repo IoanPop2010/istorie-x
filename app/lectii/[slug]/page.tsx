@@ -6,6 +6,7 @@ import { LessonBody } from "@/components/LessonBody";
 import { MapView } from "@/components/MapView";
 import { ExerciseSet, SourceBox } from "@/components/Exercises";
 import { PrintButton, ReadMarker } from "@/components/Client";
+import { inline } from "@/lib/markup";
 
 export const dynamicParams = false;
 
@@ -25,29 +26,61 @@ export default async function LessonPage({ params }: { params: Promise<{ slug: s
   const maps = mapsForUnit(unit);
 
   return (
-    <article>
-      <div className="cota">
-        <span>Modulul {ROMAN[unit.module]}</span>
-        <span>Unitatea {unit.nr} din 20</span>
-        <span>{unit.period}</span>
-        <span>
-          {unit.hours} {unit.hours === 1 ? "oră" : "ore"} în planificare
-        </span>
-      </div>
-      <h1 className="titlu-fila">{unit.title}</h1>
-      <p className="rezumat">{unit.summary}</p>
+    <article data-modul={unit.module}>
+      <header className="banda">
+        <div className="banda-text">
+          <div className="cota">
+            <span>Modulul {ROMAN[unit.module]}</span>
+            <span>Unitatea {unit.nr} din 20</span>
+            <span>
+              {unit.hours} {unit.hours === 1 ? "oră" : "ore"}
+            </span>
+          </div>
+          <h1 className="titlu-fila">{unit.title}</h1>
+          <p className="rezumat">{unit.summary}</p>
+          <div className="rand-butoane nu-tipari">
+            <Link className="btn ceara doar-profesor" href={`/proiectie/${unit.slug}`}>
+              Proiectează la clasă
+            </Link>
+            <a className="btn" href="#exercitii">
+              Mergi la exerciții
+            </a>
+            <PrintButton />
+          </div>
+        </div>
+        <div className="banda-ani" aria-hidden="true">
+          {unit.period}
+        </div>
+      </header>
 
-      <div className="rand-butoane nu-tipari" style={{ marginBottom: "2rem" }}>
-        <Link className="btn ceara doar-profesor" href={`/proiectie/${unit.slug}`}>
-          Proiectează la clasă
-        </Link>
-        <a className="btn secundar" href="#exercitii">
-          Mergi la exerciții
-        </a>
-        <PrintButton />
-      </div>
+      {unit.essentials && (
+        <section className="esential" aria-labelledby="esential">
+          <h2 id="esential">Esențialul în 5 idei</h2>
+          <ol>
+            {unit.essentials.map((e, i) => (
+              <li key={i} dangerouslySetInnerHTML={{ __html: inline(e) }} />
+            ))}
+          </ol>
+        </section>
+      )}
 
+      <section className="axa" aria-labelledby="axa">
+        <h2 id="axa">Pe axa timpului</h2>
+        <ol>
+          {unit.timeline.map((e, i) => (
+            <li key={i}>
+              <span className="an">{e.date ?? e.year}</span>
+              <span>{e.text}</span>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section className="capitol" aria-labelledby="pe-larg">
+        <h2 id="pe-larg">Lecția pe larg</h2>
+        <p className="explicatie">Deschide secțiunea care te interesează. Fiecare începe cu ideea ei principală.</p>
       <LessonBody body={unit.body} />
+      </section>
       <ReadMarker slug={unit.slug} />
 
       {unit.map && maps[unit.map.id] && (
@@ -80,18 +113,6 @@ export default async function LessonPage({ params }: { params: Promise<{ slug: s
         {unit.sources.map((s) => (
           <SourceBox key={s.id} source={s} />
         ))}
-      </section>
-
-      <section className="capitol" aria-labelledby="cronica">
-        <h2 id="cronica">Cronologie</h2>
-        <ol className="cronica">
-          {unit.timeline.map((e, i) => (
-            <li key={i}>
-              <span className="data">{e.date ?? e.year}</span>
-              <span>{e.text}</span>
-            </li>
-          ))}
-        </ol>
       </section>
 
       <section className="capitol" aria-labelledby="glosar">

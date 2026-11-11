@@ -29,10 +29,18 @@ export default function Home() {
         </div>
       </header>
 
+      <div className="module-carduri">
+        {MODULES.map((m) => (
+          <a key={m.nr} href={`#modul-${m.nr}`} data-modul={m.nr}>
+            <span className="mn">{ROMAN[m.nr]}</span>
+            <span className="mt">{m.title}</span>
+          </a>
+        ))}
+      </div>
       <OverallBar slugs={units.map((u) => u.slug)} />
 
       {MODULES.map((m) => (
-        <table className="inventar" key={m.nr}>
+        <table className="inventar" key={m.nr} id={`modul-${m.nr}`} data-modul={m.nr}>
           <caption>
             Modulul {ROMAN[m.nr]}: {m.title}
             <small>{PROGRAMA.title}</small>
