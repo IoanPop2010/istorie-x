@@ -1,0 +1,439 @@
+/* Pagini de istorie: registru de arhivă.
+   Hârtie de registru, cerneală ferogalică, rubrici cu miniu, cotor de carton. */
+
+:root {
+  --hartie: #ece5d3;
+  --hartie-2: #e2d9c3;
+  --hartie-3: #d8cdb2;
+  --cerneala: #2e2620;
+  --cerneala-2: #5d5044;
+  --cerneala-3: #8a7b6b;
+  --rubrica: #a3301f;
+  --regula: #a9bcc8;
+  --regula-slaba: #cdd6d6;
+  --carton: #cdbb8f;
+  --carton-2: #b9a473;
+  --ceara: #7c1d1b;
+  --marea: #d3d9cf;
+  --uscat: #f0e8d4;
+  --verde: #4f6b3a;
+
+  --serif: "Alegreya", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --sc: "Alegreya SC", "Alegreya", Georgia, serif;
+
+  --t-xs: 0.8125rem;
+  --t-s: 0.9375rem;
+  --t-m: 1.125rem;
+  --t-l: 1.375rem;
+  --t-xl: 1.75rem;
+  --t-xxl: 2.5rem;
+  --t-hero: clamp(3rem, 8vw, 5.75rem);
+
+  --rand: 1.875rem; /* 30px: pasul liniaturii */
+  --spine: 17rem;
+  --text: 38rem;
+  --margine: 13.5rem;
+
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  font-family: var(--serif);
+  font-size: 100%;
+  color: var(--cerneala);
+  background: var(--hartie);
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+  font-variant-numeric: oldstyle-nums proportional-nums;
+  hanging-punctuation: first;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--hartie);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .28 0 0 0 0 .2 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E");
+  font-size: var(--t-m);
+  line-height: 1.6;
+}
+
+a { color: inherit; text-decoration-color: color-mix(in srgb, var(--rubrica) 55%, transparent); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
+a:hover { color: var(--rubrica); }
+:focus-visible { outline: 2px solid var(--rubrica); outline-offset: 2px; border-radius: 1px; }
+::selection { background: color-mix(in srgb, var(--rubrica) 22%, transparent); }
+
+h1, h2, h3, h4 { font-weight: 500; line-height: 1.15; margin: 0; text-wrap: balance; }
+p { margin: 0 0 1em; text-wrap: pretty; }
+strong { font-weight: 700; }
+button, input, select, textarea { font: inherit; color: inherit; }
+
+.sc { font-family: var(--sc); letter-spacing: 0.02em; }
+.muted { color: var(--cerneala-2); }
+.visually-hidden:not(:focus) { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------- Cadrul: cotor + filă ---------- */
+
+.cadru { display: grid; grid-template-columns: var(--spine) minmax(0, 1fr); min-height: 100vh; }
+
+.cotor {
+  position: sticky; top: 0; height: 100vh; overflow-y: auto;
+  background: var(--carton);
+  background-image: repeating-linear-gradient(90deg, rgba(80, 60, 30, 0.05) 0 1px, transparent 1px 5px);
+  border-right: 1px solid var(--carton-2);
+  box-shadow: inset -6px 0 10px -8px rgba(60, 40, 20, 0.45);
+  padding: 1.75rem 1.25rem 2rem 1.5rem;
+  display: flex; flex-direction: column; gap: 1.5rem;
+  scrollbar-width: thin;
+}
+
+.cotor-titlu { font-size: var(--t-xl); line-height: 1; text-decoration: none; display: block; }
+.cotor-titlu small { display: block; font-family: var(--sc); font-size: var(--t-s); margin-top: 0.45rem; color: var(--cerneala-2); }
+
+.cotor nav h2 { font-family: var(--sc); font-size: var(--t-s); font-weight: 500; color: var(--cerneala-2); margin: 0 0 0.35rem; }
+.cotor nav ol, .cotor nav ul { list-style: none; margin: 0 0 1.1rem; padding: 0; }
+.cotor nav li a {
+  display: grid; grid-template-columns: 1.6rem 1fr; gap: 0.25rem;
+  padding: 0.18rem 0; text-decoration: none; font-size: var(--t-s); line-height: 1.3;
+}
+.cotor nav li a .nr { color: var(--cerneala-3); font-variant-numeric: lining-nums tabular-nums; }
+.cotor nav li a[aria-current="page"] { color: var(--rubrica); }
+.cotor nav li a[aria-current="page"] .nr { color: var(--rubrica); }
+.cotor nav li a .bifa { color: var(--verde); margin-left: 0.25rem; }
+
+.cotor-unelte { display: flex; flex-wrap: wrap; gap: 0.35rem 1rem; font-size: var(--t-s); }
+
+.fila { min-width: 0; padding: 2.5rem clamp(1.25rem, 4vw, 4rem) 5rem; }
+
+/* Mobil: cotorul devine bară superioară cu sertar */
+.bara-mobil { display: none; }
+
+@media (max-width: 960px) {
+  .cadru { display: block; }
+  .cotor { display: none; }
+  .bara-mobil {
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    position: sticky; top: 0; z-index: 20;
+    background: var(--carton); border-bottom: 1px solid var(--carton-2);
+    padding: 0.6rem 1rem;
+  }
+  .bara-mobil .cotor-titlu { font-size: var(--t-l); }
+  .sertar[open] > .cotor-mobil {
+    position: fixed; inset: 3.25rem 0 0 0; z-index: 30; overflow-y: auto;
+    background: var(--carton); padding: 1.25rem 1.25rem 3rem;
+    display: flex; flex-direction: column; gap: 1.25rem;
+  }
+  .sertar > summary { list-style: none; cursor: pointer; font-family: var(--sc); padding: 0.3rem 0.6rem; border: 1px solid var(--carton-2); }
+  .sertar > summary::-webkit-details-marker { display: none; }
+  .fila { padding-top: 1.5rem; }
+}
+
+/* ---------- Comutatorul elev / profesor: un sigiliu ---------- */
+
+.mod {
+  display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--cerneala-2);
+  background: var(--hartie); font-size: var(--t-s); position: relative;
+}
+.mod button {
+  border: 0; background: transparent; padding: 0.4rem 0.5rem; cursor: pointer; font-family: var(--sc);
+}
+.mod button[aria-pressed="true"] { background: var(--cerneala); color: var(--hartie); }
+html[data-mod="profesor"] .mod button[aria-pressed="true"] { background: var(--ceara); }
+.mod-nota { font-size: var(--t-xs); color: var(--cerneala-2); margin-top: 0.35rem; line-height: 1.35; }
+
+html:not([data-mod="profesor"]) .doar-profesor { display: none !important; }
+html[data-mod="profesor"] .doar-elev { display: none !important; }
+
+/* ---------- Antetul filei ---------- */
+
+.cota {
+  font-family: var(--sc); font-size: var(--t-s); color: var(--cerneala-2);
+  display: flex; flex-wrap: wrap; gap: 0.2rem 1.25rem; margin-bottom: 0.75rem;
+}
+.cota a { text-decoration: none; }
+
+.titlu-fila { font-size: var(--t-xxl); max-width: 22ch; margin-bottom: 1rem; }
+.rezumat { font-size: var(--t-l); line-height: 1.45; max-width: var(--text); color: var(--cerneala-2); font-style: italic; margin-bottom: 2rem; }
+
+/* ---------- Pagina de lecție: text + margine ---------- */
+
+.lectie { display: grid; grid-template-columns: minmax(0, var(--text)) var(--margine); column-gap: 2.75rem; }
+.lectie > * { grid-column: 1; }
+
+.sectiune { display: contents; }
+.sectiune > h2 {
+  grid-column: 1 / -1; font-size: var(--t-xl); margin: 2.4rem 0 1rem; max-width: var(--text);
+  display: grid; grid-template-columns: auto 1fr; gap: 0.75rem; align-items: baseline;
+}
+.sectiune > h2 .par { font-family: var(--sc); font-size: var(--t-m); color: var(--rubrica); font-variant-numeric: lining-nums; }
+
+.bloc { grid-column: 1; }
+.bloc p { margin: 0 0 1.05em; hyphens: auto; }
+.bloc-intai > p:first-child::first-letter {
+  float: left; font-size: 3.6em; line-height: 0.82; padding: 0.06em 0.09em 0 0; color: var(--rubrica); font-weight: 500;
+}
+
+.nota {
+  grid-column: 2; align-self: start; position: relative;
+  font-size: var(--t-s); line-height: 1.45; font-style: italic; color: var(--cerneala-2);
+  border-left: 1px solid var(--rubrica); padding: 0.1rem 0 0.5rem 0.9rem; margin-bottom: 0.75rem;
+}
+.nota::before {
+  content: ""; position: absolute; left: -4px; top: 0; bottom: 0; border-left: 1px solid color-mix(in srgb, var(--rubrica) 50%, transparent);
+}
+.nota em { font-style: normal; }
+.nota-marcaj { color: var(--rubrica); font-size: 0.7em; vertical-align: super; font-variant-numeric: lining-nums; padding-left: 0.1em; }
+.nota .nr { font-style: normal; color: var(--rubrica); font-variant-numeric: lining-nums; margin-right: 0.35rem; }
+
+blockquote.citat {
+  grid-column: 1; margin: 0.25rem 0 1.25rem; padding: 0.25rem 0 0.25rem 1.25rem;
+  border-left: 3px double var(--cerneala-3); font-style: italic; color: var(--cerneala-2);
+}
+
+@media (max-width: 1180px) {
+  .lectie { grid-template-columns: minmax(0, var(--text)); }
+  .nota { grid-column: 1; margin: -0.35rem 0 1.25rem 1rem; }
+}
+
+/* ---------- Componente de dosar ---------- */
+
+.capitol { margin-top: 3.5rem; max-width: calc(var(--text) + var(--margine) + 2.75rem); }
+.capitol > h2 { font-size: var(--t-xl); margin-bottom: 0.4rem; }
+.capitol > .explicatie { color: var(--cerneala-2); margin-bottom: 1.25rem; max-width: var(--text); }
+
+.sursa {
+  background: var(--hartie-2); border: 1px solid var(--hartie-3); padding: 1.25rem 1.5rem 1rem;
+  margin-bottom: 1.25rem; max-width: var(--text); position: relative;
+}
+.sursa h3 { font-family: var(--sc); font-size: var(--t-m); margin-bottom: 0.6rem; color: var(--rubrica); }
+.sursa .text { font-size: var(--t-m); }
+.sursa .text p:last-child { margin-bottom: 0.5rem; }
+.sursa .ref { font-size: var(--t-s); color: var(--cerneala-2); text-align: right; font-style: italic; }
+
+.glosar { display: grid; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); gap: 0 2.5rem; margin: 0; }
+.glosar div { border-top: 1px solid var(--regula); padding: 0.55rem 0 0.75rem; }
+.glosar dt { font-weight: 700; }
+.glosar dd { margin: 0.1rem 0 0; font-size: var(--t-s); line-height: 1.5; color: var(--cerneala-2); }
+
+.schema { border: 1px solid var(--cerneala-2); display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; background: var(--hartie); }
+.schema > div { padding: 0.9rem 1rem 1rem; border-right: 1px solid var(--cerneala-3); position: relative; }
+.schema > div:last-child { border-right: 0; }
+.schema > div:not(:last-child)::after {
+  content: ""; position: absolute; right: -7px; top: 1.05rem; width: 12px; height: 12px;
+  background: var(--hartie); border-top: 1px solid var(--cerneala-3); border-right: 1px solid var(--cerneala-3); transform: rotate(45deg); z-index: 1;
+}
+.schema h3 { font-family: var(--sc); font-size: var(--t-m); color: var(--rubrica); margin-bottom: 0.5rem; }
+.schema ul { margin: 0; padding-left: 1rem; font-size: var(--t-s); line-height: 1.45; }
+.schema li { margin-bottom: 0.4rem; }
+@media (max-width: 760px) {
+  .schema { grid-auto-flow: row; }
+  .schema > div { border-right: 0; border-bottom: 1px solid var(--cerneala-3); }
+  .schema > div:not(:last-child)::after { right: auto; left: 1.2rem; top: auto; bottom: -7px; transform: rotate(135deg); }
+}
+
+.cronica { list-style: none; padding: 0; margin: 0; max-width: var(--text); }
+.cronica li { display: grid; grid-template-columns: 9.5rem 1fr; gap: 1rem; padding: 0.45rem 0; border-top: 1px solid var(--regula-slaba); }
+.cronica .data { font-variant-numeric: lining-nums tabular-nums; color: var(--rubrica); font-size: var(--t-s); padding-top: 0.15rem; }
+@media (max-width: 560px) { .cronica li { grid-template-columns: 1fr; gap: 0; } }
+
+/* ---------- Hărți ---------- */
+
+.harta { max-width: calc(var(--text) + var(--margine) + 2.75rem); }
+.harta figure { margin: 0; }
+.harta svg { display: block; width: 100%; height: auto; background: var(--marea); border: 1px solid var(--cerneala-2); }
+.harta .teritoriu { fill: var(--uscat); stroke: var(--cerneala-2); stroke-width: 0.6; vector-effect: non-scaling-stroke; transition: fill 0.12s; }
+.harta .teritoriu.evidentiat { fill: url(#hasura); }
+.harta .teritoriu.activ, .harta .teritoriu:hover { fill: #e6d6aa; }
+.harta .teritoriu.evidentiat:hover { fill: url(#hasura-activ); }
+.harta .eticheta { font-family: var(--serif); font-size: 12px; fill: var(--cerneala); pointer-events: none; paint-order: stroke; stroke: var(--uscat); stroke-width: 3px; stroke-linejoin: round; }
+.harta .eticheta.mare { font-family: var(--sc); font-size: 14px; }
+.harta .retea { fill: none; stroke: #b8c2b9; stroke-width: 0.5; vector-effect: non-scaling-stroke; }
+.harta figcaption { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; font-size: var(--t-s); color: var(--cerneala-2); margin-top: 0.5rem; }
+.harta .info { min-height: 1.6em; font-style: italic; }
+.harta-muta .teritoriu { cursor: pointer; }
+.harta-muta .teritoriu.gasit { fill: url(#hasura); }
+.harta-muta .teritoriu.gresit { fill: #d9b1a3; }
+
+/* ---------- Exerciții ---------- */
+
+.exercitii { counter-reset: ex; display: grid; gap: 1.75rem; max-width: var(--text); }
+.ex { border-top: 1px solid var(--cerneala-3); padding-top: 1rem; counter-increment: ex; }
+.ex > header { display: flex; justify-content: space-between; gap: 1rem; align-items: baseline; margin-bottom: 0.6rem; }
+.ex > header .tip { font-family: var(--sc); font-size: var(--t-s); color: var(--cerneala-2); }
+.ex > header .tip::before { content: counter(ex) ". "; color: var(--rubrica); font-variant-numeric: lining-nums; }
+.ex .intrebare { font-weight: 500; margin-bottom: 0.75rem; }
+.ex .verdict { font-family: var(--sc); font-size: var(--t-s); }
+.ex .verdict.bine { color: var(--verde); }
+.ex .verdict.gresit { color: var(--rubrica); }
+.ex .explicatie { margin-top: 0.75rem; font-size: var(--t-s); color: var(--cerneala-2); border-left: 1px solid var(--rubrica); padding-left: 0.9rem; }
+
+.variante { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.4rem; }
+.variante button {
+  width: 100%; text-align: left; background: transparent; border: 1px solid var(--hartie-3); padding: 0.55rem 0.8rem 0.55rem 2.4rem;
+  cursor: pointer; position: relative; line-height: 1.4;
+}
+.variante button::before {
+  content: attr(data-litera); position: absolute; left: 0.8rem; top: 0.55rem; font-family: var(--sc); color: var(--cerneala-3);
+}
+.variante button:hover:not(:disabled) { border-color: var(--cerneala-2); background: var(--hartie-2); }
+.variante button:disabled { cursor: default; }
+.variante button.corect { border-color: var(--verde); background: color-mix(in srgb, var(--verde) 10%, var(--hartie)); }
+.variante button.ales-gresit { border-color: var(--rubrica); background: color-mix(in srgb, var(--rubrica) 9%, var(--hartie)); text-decoration: line-through; text-decoration-color: var(--rubrica); }
+
+.ordine { list-style: none; padding: 0; margin: 0 0 0.75rem; display: grid; gap: 0.35rem; }
+.ordine li {
+  display: grid; grid-template-columns: 1.8rem 1fr auto; gap: 0.5rem; align-items: center;
+  border: 1px solid var(--hartie-3); padding: 0.4rem 0.4rem 0.4rem 0.7rem; background: var(--hartie); cursor: grab;
+}
+.ordine li.trage { opacity: 0.45; }
+.ordine li .poz { font-variant-numeric: lining-nums; color: var(--cerneala-3); }
+.ordine li .data { font-size: var(--t-s); color: var(--rubrica); font-variant-numeric: lining-nums; }
+.ordine li.corect { border-color: var(--verde); }
+.ordine li.gresit { border-color: var(--rubrica); }
+.ordine .muta { display: flex; gap: 0.2rem; }
+.ordine .muta button { width: 2rem; height: 2rem; border: 1px solid var(--hartie-3); background: transparent; cursor: pointer; }
+.ordine .muta button:hover:not(:disabled) { border-color: var(--cerneala-2); }
+
+.perechi { display: grid; gap: 0.5rem; margin-bottom: 0.75rem; }
+.perechi label { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 0.75rem; align-items: center; border-bottom: 1px dotted var(--cerneala-3); padding-bottom: 0.5rem; }
+.perechi select { width: 100%; padding: 0.4rem; background: var(--hartie); border: 1px solid var(--cerneala-3); }
+.perechi label.corect select { border-color: var(--verde); }
+.perechi label.gresit select { border-color: var(--rubrica); }
+.perechi .corect-era { grid-column: 2; font-size: var(--t-s); color: var(--verde); }
+
+.itemi-bac { list-style: none; padding: 0; margin: 1rem 0 0; display: grid; gap: 1rem; counter-reset: it; }
+.itemi-bac > li { counter-increment: it; }
+.itemi-bac > li > p { margin-bottom: 0.4rem; }
+.itemi-bac > li > p::before { content: counter(it) ". "; color: var(--rubrica); font-variant-numeric: lining-nums; }
+.itemi-bac textarea { width: 100%; min-height: 5.5rem; border: 1px solid var(--cerneala-3); background: var(--hartie); padding: 0.5rem 0.7rem; line-height: 1.5; resize: vertical; }
+.barem { margin-top: 0.5rem; border: 1px dashed var(--cerneala-3); padding: 0.6rem 0.9rem; font-size: var(--t-s); }
+.barem label { display: flex; gap: 0.5rem; align-items: baseline; margin-bottom: 0.3rem; cursor: pointer; }
+.barem input { accent-color: var(--rubrica); }
+
+.puncte { font-family: var(--sc); font-size: var(--t-s); color: var(--cerneala-2); }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 0.4rem; border: 1px solid var(--cerneala); background: var(--cerneala); color: var(--hartie);
+  padding: 0.45rem 1rem; cursor: pointer; text-decoration: none; font-family: var(--sc); font-size: var(--t-s); line-height: 1.3;
+}
+.btn:hover { background: var(--rubrica); border-color: var(--rubrica); color: var(--hartie); }
+.btn:disabled { opacity: 0.45; cursor: default; }
+.btn.secundar { background: transparent; color: var(--cerneala); }
+.btn.secundar:hover { background: var(--hartie-2); color: var(--cerneala); border-color: var(--cerneala); }
+.btn.ceara { background: var(--ceara); border-color: var(--ceara); }
+.rand-butoane { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; }
+
+/* ---------- Inventarul (pagina principală) ---------- */
+
+.frontispiciu { max-width: 58rem; margin-bottom: 3rem; }
+.frontispiciu h1 { font-size: var(--t-hero); line-height: 0.95; letter-spacing: -0.01em; margin-bottom: 1.25rem; }
+.frontispiciu h1 .ani { display: block; font-size: 0.42em; font-style: italic; color: var(--cerneala-2); letter-spacing: 0; margin-top: 0.4rem; font-variant-numeric: oldstyle-nums; }
+.frontispiciu p { font-size: var(--t-l); line-height: 1.5; max-width: 36rem; color: var(--cerneala-2); }
+
+.inventar { width: 100%; max-width: 64rem; border-collapse: collapse; font-size: var(--t-m); }
+.inventar caption { text-align: left; font-size: var(--t-xl); padding: 2.5rem 0 0.25rem; caption-side: top; }
+.inventar caption small { display: block; font-family: var(--sc); font-size: var(--t-s); color: var(--cerneala-2); margin-top: 0.2rem; }
+.inventar th, .inventar td { text-align: left; padding: 0.42rem 0.75rem 0.38rem; border-bottom: 1px solid var(--regula); vertical-align: baseline; }
+.inventar thead th { font-family: var(--sc); font-weight: 500; font-size: var(--t-s); color: var(--cerneala-2); border-bottom: 1px solid var(--cerneala-2); }
+.inventar td.nr, .inventar th.nr { width: 3.25rem; text-align: right; border-right: 1px solid var(--rubrica); box-shadow: inset -3px 0 0 var(--hartie), inset -4px 0 0 color-mix(in srgb, var(--rubrica) 55%, transparent); font-variant-numeric: lining-nums tabular-nums; color: var(--cerneala-2); }
+.inventar td.ani { white-space: nowrap; color: var(--cerneala-2); font-size: var(--t-s); }
+.inventar td.stare { width: 9.5rem; font-size: var(--t-s); white-space: nowrap; }
+.inventar td a { text-decoration: none; }
+.inventar td a:hover { text-decoration: underline; }
+.inventar tr.modul-test td { font-style: italic; color: var(--cerneala-2); border-bottom-color: var(--cerneala-3); }
+.stare-citit { color: var(--verde); }
+.stare-necitit { color: var(--cerneala-3); }
+@media (max-width: 680px) {
+  .inventar td.ani, .inventar th.ani { display: none; }
+  .inventar td.stare { width: auto; }
+}
+
+.bara-parcurs { display: flex; align-items: center; gap: 1rem; margin: 1rem 0 0; font-size: var(--t-s); color: var(--cerneala-2); max-width: 64rem; }
+.bara-parcurs .linie { flex: 1; height: 6px; background: var(--hartie-3); position: relative; }
+.bara-parcurs .linie span { position: absolute; inset: 0 auto 0 0; background: var(--rubrica); }
+
+/* ---------- Pagini de unelte ---------- */
+
+.unealta { max-width: 52rem; }
+.camp { width: 100%; padding: 0.65rem 0.9rem; border: 1px solid var(--cerneala-2); background: var(--hartie); font-size: var(--t-l); }
+.rezultate { list-style: none; padding: 0; margin: 1.5rem 0 0; }
+.rezultate li { border-top: 1px solid var(--regula); padding: 0.75rem 0; }
+.rezultate .tip { font-family: var(--sc); font-size: var(--t-xs); color: var(--cerneala-2); }
+.rezultate p { margin: 0.2rem 0 0; font-size: var(--t-s); color: var(--cerneala-2); }
+.rezultate mark { background: color-mix(in srgb, var(--rubrica) 18%, transparent); color: inherit; }
+
+.filtre { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0 0 1.25rem; }
+.filtre button { border: 1px solid var(--cerneala-3); background: transparent; padding: 0.25rem 0.7rem; cursor: pointer; font-size: var(--t-s); }
+.filtre button[aria-pressed="true"] { background: var(--cerneala); color: var(--hartie); border-color: var(--cerneala); }
+
+.cronologie-mare { list-style: none; padding: 0; margin: 0; position: relative; }
+.cronologie-mare::before { content: ""; position: absolute; left: 6.25rem; top: 0; bottom: 0; border-left: 1px solid var(--rubrica); }
+.cronologie-mare li { display: grid; grid-template-columns: 5.5rem 1fr; gap: 1.5rem; padding: 0.5rem 0; position: relative; }
+.cronologie-mare li::before { content: ""; position: absolute; left: calc(6.25rem - 3px); top: 1.05rem; width: 7px; height: 7px; background: var(--hartie); border: 1px solid var(--rubrica); border-radius: 50%; }
+.cronologie-mare .data { text-align: right; color: var(--rubrica); font-variant-numeric: lining-nums tabular-nums; font-size: var(--t-s); padding-top: 0.15rem; }
+.cronologie-mare .unitate { display: block; font-size: var(--t-xs); color: var(--cerneala-2); }
+.cronologie-mare li.secol { padding: 1.75rem 0 0.5rem; }
+.cronologie-mare li.secol::before { display: none; }
+.cronologie-mare li.secol h2 { grid-column: 2; font-size: var(--t-l); font-style: italic; }
+
+.fisa {
+  perspective: 1600px; max-width: 34rem; height: 19rem; margin: 1rem 0 1.25rem; cursor: pointer; border: 0; padding: 0; background: none; width: 100%; display: block; text-align: left;
+}
+.fisa-interior { position: relative; width: 100%; height: 100%; transition: transform 0.45s; transform-style: preserve-3d; }
+.fisa.intoarsa .fisa-interior { transform: rotateY(180deg); }
+.fisa-fata, .fisa-verso {
+  position: absolute; inset: 0; backface-visibility: hidden; background: #f4eedf; border: 1px solid var(--cerneala-3);
+  box-shadow: 2px 3px 0 var(--hartie-3); padding: 1.5rem 1.75rem; display: flex; flex-direction: column; justify-content: center;
+  background-image: repeating-linear-gradient(transparent 0 calc(var(--rand) - 1px), var(--regula) calc(var(--rand) - 1px) var(--rand));
+  background-position: 0 3.2rem;
+}
+.fisa-fata::before, .fisa-verso::before { content: ""; position: absolute; top: 0; bottom: 0; left: 1rem; border-left: 1px solid color-mix(in srgb, var(--rubrica) 55%, transparent); }
+.fisa-fata { font-size: var(--t-xxl); text-align: center; align-items: center; }
+.fisa-verso { transform: rotateY(180deg); font-size: var(--t-m); line-height: var(--rand); }
+.fisa small { position: absolute; top: 0.75rem; right: 1rem; font-family: var(--sc); font-size: var(--t-xs); color: var(--cerneala-2); }
+
+.paginatie { display: flex; justify-content: space-between; gap: 1rem; margin-top: 4rem; padding-top: 1rem; border-top: 1px solid var(--cerneala-3); max-width: calc(var(--text) + var(--margine) + 2.75rem); }
+.paginatie a { text-decoration: none; max-width: 48%; }
+.paginatie small { display: block; font-family: var(--sc); color: var(--cerneala-2); font-size: var(--t-s); }
+
+.subsol { margin-top: 4rem; font-size: var(--t-xs); color: var(--cerneala-2); max-width: 52rem; }
+
+/* ---------- Proiecție ---------- */
+
+.proiectie {
+  position: fixed; inset: 0; z-index: 100; background: var(--hartie); display: grid; grid-template-rows: auto 1fr auto;
+  font-size: clamp(1.25rem, 2.3vw, 2.1rem);
+}
+.proiectie header, .proiectie footer { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 0.75rem 2rem; font-size: 1rem; }
+.proiectie header { border-bottom: 1px solid var(--cerneala-3); font-family: var(--sc); }
+.proiectie footer { border-top: 1px solid var(--cerneala-3); }
+.proiectie main { overflow: auto; padding: 4vh 6vw; display: flex; flex-direction: column; justify-content: center; }
+.proiectie h2 { font-size: 2.1em; margin-bottom: 0.6em; max-width: 26ch; }
+.proiectie p { max-width: 42ch; line-height: 1.45; }
+.proiectie .slide-sursa { background: var(--hartie-2); padding: 1.2em 1.5em; max-width: 46ch; font-style: italic; }
+.proiectie .variante { font-size: 0.85em; max-width: 40ch; }
+.proiectie .cronometru { font-variant-numeric: lining-nums tabular-nums; font-size: 1.25rem; }
+.proiectie .harta { max-width: 80vh; }
+.proiectie .schema { font-size: 0.7em; }
+
+/* ---------- Tipar ---------- */
+
+@media print {
+  body { background: #fff; font-size: 11pt; }
+  .cotor, .bara-mobil, .nu-tipari, .exercitii, .paginatie, .harta-muta { display: none !important; }
+  .cadru { display: block; }
+  .fila { padding: 0; }
+  .lectie { display: block; }
+  .nota { display: block; margin: -0.4em 0 0.8em 1.5em; border-left: 1px solid #999; font-size: 9pt; }
+  .nota::before { display: none; }
+  .sursa { break-inside: avoid; background: none; }
+  .schema { break-inside: avoid; }
+  .harta { break-inside: avoid; }
+  a { text-decoration: none; }
+  .doar-profesor { display: none !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
