@@ -15,7 +15,7 @@ export const MODULES: { nr: ModuleNr; title: string }[] = [
   { nr: 2, title: "Țările Române și revoluțiile de la 1848" },
   { nr: 3, title: "Secolul al XIX-lea și Primul Război Mondial" },
   { nr: 4, title: "Perioada interbelică și al Doilea Război Mondial" },
-  { nr: 5, title: "Lumea postbelică și începutul mileniului trei" },
+  { nr: 5, title: "Holocaustul, lumea postbelică și începutul mileniului trei" },
 ];
 
 export const ROMAN = ["", "I", "II", "III", "IV", "V"];
