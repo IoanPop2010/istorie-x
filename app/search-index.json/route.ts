@@ -13,7 +13,7 @@ export function GET() {
         url: `/lectii/${u.slug}#s-${s.id}`,
         title: s.title ? `${u.title}: ${s.title}` : u.title,
         kind: `Lecție, unitatea ${u.nr}`,
-        text: s.blocks.map((b) => strip(b.html)).join(" "),
+        text: s.blocks.map((b) => strip(b.type === "list" ? b.items.join(" ") : b.html)).join(" "),
       });
     }
     for (const t of u.glossary) docs.push({ url: `/lectii/${u.slug}#glosar`, title: t.term, kind: `Termen, unitatea ${u.nr}`, text: t.def });

@@ -7,7 +7,8 @@
 
 export type Block =
   | { type: "p"; html: string; notes: string[] }
-  | { type: "quote"; html: string };
+  | { type: "quote"; html: string }
+  | { type: "list"; items: string[] };
 
 export type Section = { id: string; title: string; blocks: Block[] };
 
@@ -34,6 +35,7 @@ export function parseBody(body: string): Section[] {
   let current: Section | null = null;
   let para: string[] = [];
   let quote: string[] = [];
+  let list: string[] = [];
 
   const ensure = () => {
     if (!current) {
@@ -46,6 +48,10 @@ export function parseBody(body: string): Section[] {
     if (para.length) ensure().blocks.push({ type: "p", html: inline(para.join(" ")), notes: [] });
     para = [];
   };
+  const flushList = () => {
+    if (list.length) ensure().blocks.push({ type: "list", items: list.map(inline) });
+    list = [];
+  };
   const flushQuote = () => {
     if (quote.length) ensure().blocks.push({ type: "quote", html: inline(quote.join(" ")) });
     quote = [];
@@ -56,6 +62,7 @@ export function parseBody(body: string): Section[] {
     if (line.startsWith("## ")) {
       flushPara();
       flushQuote();
+      flushList();
       const title = line.slice(3).trim();
       current = { id: slugify(title), title, blocks: [] };
       sections.push(current);
@@ -66,19 +73,27 @@ export function parseBody(body: string): Section[] {
       const last = [...sec.blocks].reverse().find((b) => b.type === "p");
       const note = inline(line.replace(/^>\s*nota:\s*/i, ""));
       if (last && last.type === "p") last.notes.push(note);
+    } else if (line.startsWith("- ")) {
+      flushPara();
+      flushQuote();
+      list.push(line.slice(2));
     } else if (line.startsWith(">")) {
       flushPara();
+      flushList();
       quote.push(line.replace(/^>\s?/, ""));
     } else if (line === "") {
       flushPara();
       flushQuote();
+      flushList();
     } else {
       flushQuote();
+      flushList();
       para.push(line);
     }
   }
   flushPara();
   flushQuote();
+  flushList();
   return sections;
 }
 
@@ -88,6 +103,7 @@ export function plainText(body: string): string {
     .filter((l) => !/^>\s*nota:/i.test(l.trim()))
     .join(" ")
     .replace(/^##\s*/gm, "")
+    .replace(/^-\s/gm, "")
     .replace(/[*>#]/g, "")
     .replace(/\s+/g, " ")
     .trim();

@@ -16,6 +16,15 @@ export function LessonBody({ body }: { body: string }) {
             </h2>
           )}
           {s.blocks.map((b, bi) => {
+            if (b.type === "list") {
+              return (
+                <ul className="bloc lista" key={bi}>
+                  {b.items.map((it, k) => (
+                    <li key={k} dangerouslySetInnerHTML={{ __html: it }} />
+                  ))}
+                </ul>
+              );
+            }
             if (b.type === "quote") {
               return <blockquote className="citat" key={bi} dangerouslySetInnerHTML={{ __html: b.html }} />;
             }

@@ -76,7 +76,7 @@ export function Projector({
   const router = useRouter();
   const slides: Slide[] = [{ kind: "titlu" }];
   for (const s of sections) {
-    const paras = s.blocks.map((b) => b.html);
+    const paras = s.blocks.map((b) => (b.type === "list" ? b.items.join("<br>") : b.html));
     for (let k = 0; k < paras.length; k += 2) slides.push({ kind: "text", title: s.title || title, html: paras.slice(k, k + 2) });
   }
   if (map) slides.push({ kind: "harta" });
