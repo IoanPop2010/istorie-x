@@ -9,5 +9,15 @@ import { u07 } from "./u07-revolutia-industriala";
 import { u08 } from "./u08-state-nationale";
 import { u09 } from "./u09-lumea-la-cumpana-secolelor";
 import { u10 } from "./u10-primul-razboi-mondial";
+import { u11 } from "./u11-tratatele-de-pace";
+import { u12 } from "./u12-romania-interbelica";
+import { u13 } from "./u13-regimuri-interbelice";
+import { u14 } from "./u14-al-doilea-razboi-mondial";
+import { u15 } from "./u15-holocaustul";
+import { u16 } from "./u16-regimuri-postbelice";
+import { u17 } from "./u17-lumea-postbelica";
+import { u18 } from "./u18-religia-in-lumea-contemporana";
+import { u19 } from "./u19-integrarea-euroatlantica";
+import { u20 } from "./u20-societatea-mileniului-trei";
 
-export const units: Unit[] = [u01, u02, u03, u04, u05, u06, u07, u08, u09, u10];
+export const units: Unit[] = [u01, u02, u03, u04, u05, u06, u07, u08, u09, u10, u11, u12, u13, u14, u15, u16, u17, u18, u19, u20];

@@ -4,7 +4,7 @@ const dir = "content/p2004";
 const maps = Object.fromEntries(fs.readdirSync("content/maps").map((f) => [f.replace(".json", ""), JSON.parse(fs.readFileSync(`content/maps/${f}`, "utf8"))]));
 let errors = 0;
 const err = (m) => { errors++; console.log("EROARE", m); };
-const { units } = await import(process.argv[2]);
+const { units } = await import(new URL(process.argv[2], `file://${process.cwd()}/`).href);
 for (const u of units) {
   const ids = (m) => new Set(maps[m]?.features.map((f) => f.id));
   if (u.map) {
