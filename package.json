@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
-    "maps": "node scripts/build-maps.mjs ../geodata"
+    "maps": "node scripts/build-maps.mjs ../geodata",
+    "check": "tsx scripts/check-content.mjs ./content/p2004/index.ts"
   },
   "repository": {
     "type": "git",
